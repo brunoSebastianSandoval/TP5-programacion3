@@ -41,4 +41,14 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<Map<String, Object>> handleInsufficientStock(InsufficientStockException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "Stock insuficiente");
+        response.put("mensaje", ex.getMessage());
+        response.put("timestamp", LocalDateTime.now());
+        
+        // Retorna exactamente el 409 Conflict que pide el TP
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 }
