@@ -41,9 +41,13 @@ public class ProductoController {
         ProductoResponse nuevoProducto = productoService.crear(request);
         
         // Retorna 201 Created con el header Location según buenas prácticas REST
-        return ResponseEntity
-                .created(URI.create("/api/productos/" + nuevoProducto.id()))
-                .body(nuevoProducto);
+        URI location = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(nuevoProducto.id())
+                .toUri();
+
+        return ResponseEntity.created(location).body(nuevoProducto);
     }
 
     @PutMapping("/{id}")

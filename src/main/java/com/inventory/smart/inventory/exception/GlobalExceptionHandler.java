@@ -51,4 +51,13 @@ public class GlobalExceptionHandler {
         // Retorna exactamente el 409 Conflict que pide el TP
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessRule(BusinessRuleException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "Conflicto con regla de negocio");
+        response.put("mensaje", ex.getMessage());
+        response.put("timestamp", LocalDateTime.now());
+        
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 }
